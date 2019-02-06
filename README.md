@@ -2,7 +2,7 @@
 
 The dataset contains 9358 instances of hourly averaged responses from an array of 5 metal oxide chemical sensors embedded in an Air Quality Chemical Multisensor Device. The device was located on the field in a significantly polluted area, at road level. Data were recorded for a period of one year (March 2004 - February 2005) in an Italian city.
 
-**Features**
+## Features
 
 | Date                        | Date (DD/MM/YYYY) |
 | --- | --- |
@@ -18,12 +18,12 @@ The dataset contains 9358 instances of hourly averaged responses from an array o
 | PT08.S4(NO2)         | PT08.S4 (tungsten oxide) hourly averaged sensor response |
 | PT08.S5(O3)           | PT08.S5 (indium oxide) hourly averaged sensor response (nominally O3 targeted) |
 | T | Temperature in Â°C |
-| **RH** | **Relative Humidity (%)** |
-| AH | AH Absolute Humidity   |
+| RH | Relative Humidity (%)|
+| AH | AH Absolute Humidity |
 
 
 
-**Model and hyper-parameters comparison**
+## Model and hyper-parameters comparison
 
 |   | Score Default Parameters | ScoreGrid Search | Best Parameters |
 | --- | --- | --- | --- |
@@ -32,7 +32,7 @@ The dataset contains 9358 instances of hourly averaged responses from an array o
 | ﻿ SVM | ﻿96.26 | ﻿94.86 | ﻿degree: 3, kernel: rbf |
 | ﻿ Polynomial Regression | ﻿99.24 | ﻿99.20 | ﻿fit\_intercept: True, &#39;normalize&#39;: True |
 
-**Conclusions**
+## Conclusions
 
 - Random Forests and Polynomial Regression did a great job predicting relative humidity.
 - Since the default parameters already did a great job, there was no room left for improvement of the models with the help of grid search.
