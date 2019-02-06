@@ -1,15 +1,13 @@
-#------------------------------------------------------------------------------
-#---DMASM Project - Yossi Gausman - Metro College------------------------------
-#------------------------------------------------------------------------------
-#---Prediction of Relative Humidity -------------------------------------------
-#------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------------
+#---Prediction of Relative Humidity ----------------------------------------------------
+#---------------------------------------------------------------------------------------
 
-#---Working Directory----------------------------------------------------------
+#---Working Directory-------------------------------------------------------------------
 import os
-os.chdir(r'/Users/yossigausman/Desktop/DSA/Machine Learing/Working Directory')
+os.chdir(...)
 os.getcwd()
 
-#---Loading data---------------------------------------------------------------
+#---Data Loading------------------------------------------------------------------------
 import pandas as pd
 
 df = pd.read_csv("Air Quality UCI.csv",na_values=-200) # -200 was found while looking at the dataset
@@ -21,8 +19,7 @@ df.isnull().sum()
 df.info()
 df.shape
 
-#---Data Cleaning--------------------------------------------------------------
-
+#---Data Cleaning-----------------------------------------------------------------------
 df.dropna(thresh=7,axis=0,inplace=True)
 df.drop(['Unnamed: 15', 'Unnamed: 16'], axis=1, inplace=True)
 df.drop('NMHC(GT)', axis=1, inplace=True) # Most of the values are missing
@@ -35,21 +32,21 @@ df.reset_index(inplace=True)
 
 df['Hour']=df['Time'].apply(lambda x: int(x.split(':')[0])) # Split hour from time
 
-#---Replacinig NaN values with particular hour average in each month-----------
+#---Replacinig NaN values with particular hour average in each month--------------------
 df['CO(GT)']=df['CO(GT)'].fillna(df.groupby(['Month','Hour'])['CO(GT)'].transform('mean'))
 df['NOx(GT)']=df['NOx(GT)'].fillna(df.groupby(['Month','Hour'])['NOx(GT)'].transform('mean'))
 df['NO2(GT)']=df['NO2(GT)'].fillna(df.groupby(['Month','Hour'])['NO2(GT)'].transform('mean'))
 
 df.isnull().sum()
 
-#---Replacing what is left by average of coresponding hour---------------------
+#---Replacing what is left by average of coresponding hour------------------------------
 df['CO(GT)']=df['CO(GT)'].fillna(df.groupby(['Hour'])['CO(GT)'].transform('mean'))
 df['NOx(GT)']=df['NOx(GT)'].fillna(df.groupby(['Hour'])['NOx(GT)'].transform('mean'))
 df['NO2(GT)']=df['NO2(GT)'].fillna(df.groupby(['Hour'])['NO2(GT)'].transform('mean'))
 
 df.isnull().sum()
 
-#---Correlation----------------------------------------------------------------
+#---Correlation-------------------------------------------------------------------------
 from matplotlib import pyplot as plt
 import seaborn as sns
 
@@ -59,7 +56,7 @@ correlation['RH'].sort_values(ascending=False)
 plt.figure(figsize=(14,8))
 sns.heatmap(df.corr(),annot=True,cmap='viridis')
 
-#---Splitting and Scaling------------------------------------------------------
+#---Splitting and Scaling---------------------------------------------------------------
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 
@@ -73,16 +70,16 @@ X_train = scaler.fit_transform(X_train)
 X_test = scaler.fit_transform(X_test)
 
 
-#------------------------------------------------------------------------------
-#---Linear Regressin Model-----------------------------------------------------
-#------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------------
+#---Linear Regressin Model--------------------------------------------------------------
+#---------------------------------------------------------------------------------------
 from sklearn.linear_model import LinearRegression
 
 lr = LinearRegression()
 lr.fit(X_train, y_train)
 lr.score(X_test, y_test)
 
-#---Visualization--------------------------------------------------------------
+#---Visualization-----------------------------------------------------------------------
 from sklearn.metrics import mean_squared_error
 import numpy as np
 import matplotlib.pyplot as plt
@@ -97,7 +94,7 @@ plt.title('Linear Regression')
 plt.show()
 
 
-#---GridSearch-----------------------------------------------------------------
+#---GridSearch--------------------------------------------------------------------------
 from sklearn.model_selection import GridSearchCV
 
 parameters = {'fit_intercept':[True, False], 'normalize':[True, False]}
@@ -108,16 +105,16 @@ GS.fit(X_train,y_train)
 GS.best_params_
 GS.best_score_
 
-#------------------------------------------------------------------------------
-#---Random Forest--------------------------------------------------------------
-#------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------------
+#---Random Forest-----------------------------------------------------------------------
+#---------------------------------------------------------------------------------------
 from sklearn.ensemble import RandomForestRegressor
 
 rf = RandomForestRegressor(random_state = 0)
 rf.fit(X_train, y_train)
 rf.score(X_test, y_test)
 
-#---Visualization--------------------------------------------------------------
+#---Visualization-----------------------------------------------------------------------
 from sklearn.metrics import mean_squared_error
 import numpy as np
 import matplotlib.pyplot as plt
@@ -131,7 +128,7 @@ plt.ylabel('y_pred')
 plt.title('Random Forests')
 plt.show()
 
-#---GridSearch-----------------------------------------------------------------
+#---GridSearch--------------------------------------------------------------------------
 from sklearn.model_selection import GridSearchCV
 
 parameters = {'n_estimators': [10,20,30],
@@ -144,16 +141,16 @@ GS.fit(X_train,y_train)
 GS.best_params_
 GS.best_score_
 
-#------------------------------------------------------------------------------
-#---SVR------------------------------------------------------------------------
-#------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------------
+#---SVR---------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------------
 from sklearn.svm import SVR
 
 svr = SVR()
 svr.fit(X_train,y_train)
 svr.score(X_test,y_test)
 
-#---Visualization--------------------------------------------------------------
+#---Visualization-----------------------------------------------------------------------
 from sklearn.metrics import mean_squared_error
 import numpy as np
 import matplotlib.pyplot as plt
@@ -167,7 +164,7 @@ plt.ylabel('y_pred')
 plt.title('SVR')
 plt.show()
 
-#---GridSearch-----------------------------------------------------------------
+#---GridSearch--------------------------------------------------------------------------
 from sklearn.model_selection import GridSearchCV
 
 parameters = {'kernel':['rbf', 'sigmoid'],
@@ -180,9 +177,9 @@ GS.fit(X_train,y_train)
 GS.best_params_
 GS.best_score_
 
-#------------------------------------------------------------------------------
-#---Polynomial Regression------------------------------------------------------
-#------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------------
+#---Polynomial Regression---------------------------------------------------------------
+#---------------------------------------------------------------------------------------
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.linear_model import LinearRegression
 
@@ -196,7 +193,7 @@ polyreg = LinearRegression()
 polyreg.fit(X_train, y_train)
 polyreg.score(X_test,y_test)
 
-#---Visualization--------------------------------------------------------------
+#---Visualization-----------------------------------------------------------------------
 from sklearn.metrics import mean_squared_error
 import numpy as np
 import matplotlib.pyplot as plt
@@ -210,7 +207,7 @@ plt.ylabel('y_pred')
 plt.title('Polynomial Regression')
 plt.show()
 
-#---GridSearch-----------------------------------------------------------------
+#---GridSearch--------------------------------------------------------------------------
 from sklearn.model_selection import GridSearchCV
 
 parameters = {'fit_intercept':[True, False], 'normalize':[True, False]}
@@ -221,5 +218,5 @@ GS.fit(X_train,y_train)
 GS.best_params_
 GS.best_score_
 
-#---End------------------------------------------------------------------------
+#---End---------------------------------------------------------------------------------
 
