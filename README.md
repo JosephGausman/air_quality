@@ -37,5 +37,4 @@ The dataset contains 9358 instances of hourly averaged responses from an array o
 - Random Forests and Polynomial Regression did a great job predicting relative humidity.
 - Since the default parameters already did a great job, there was no room left for improvement of the models with the help of grid search.
 - Based on the correlation between the variables and the target, removal of less correlated variables did not improve the accuracy of the prediction, therefore, all the variables were used in the prediction.
-- In addition, for Linear and Polynomial regressions not many parameters can be changed, therefore, grid search did not lead to the improvement of the these models.
-- Based on the graphs (see next page) we can back up the performance scores of the models by looking at RMSE. Random Forests has very low RMSE (0.81) and the best performance score (99.76), while the Linear Regression with RMSE=5.79 has the lowest score (88.24). A strong correlation can be seen between performance score and RMSE.
+- In addition, for Linear and Polynomial regressions not many parameters can be changed, therefore, grid search contribution to the improvement of the model score was very low.
